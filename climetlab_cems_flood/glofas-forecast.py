@@ -25,7 +25,7 @@ class GlofasForecast(Dataset):
     def __init__(self):
         self.year = year
 
-    @normalize_args(variable=["river_discharge_in_the_last_24_hours"])
+    #@normalize_args(variable=["river_discharge_in_the_last_24_hours"])
     def _load(self, variable):
         request =  {'system_version': 'version_2_1',
                     'hydrological_model': 'htessel_lisflood',
