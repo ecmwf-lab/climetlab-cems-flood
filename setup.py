@@ -30,7 +30,7 @@ extras_require = {}
 setuptools.setup(
     name=package_name,
     version=versioneer.get_version(),
-    cmdclass=cersioneer.get_cmdclass(),
+    cmdclass=versioneer.get_cmdclass(),
     description="A dataset plugin for climetlab for the dataset cems-flood/glofas.",
     long_description=read("README.md"),
     long_description_content_type="text/markdown",
