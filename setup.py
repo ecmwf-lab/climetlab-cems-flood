@@ -45,11 +45,11 @@ setuptools.setup(
     zip_safe=True,
     entry_points={
         "climetlab.datasets": [
-            "cems-flood-glofas = climetlab_cems_flood.glofas:Glofas",
+            "cems-flood-glofas-forecast = climetlab_cems_flood.glofas_forecast:GlofasForecast",
             # "cems-flood-other-dataset = climetlab_cems_flood.other_dataset:OtherDatasetClass",
         ]
     },
-    keywords="meteorology",
+    keywords="hydrology",
     classifiers=[
         "Development Status :: 3 - Alpha",
         "Intended Audience :: Developers",
