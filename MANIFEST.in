@@ -1,0 +1,7 @@
+nclude README.rst
+include LICENSE
+include requirements.txt
+graft climetlab_cems_flood
+recursive-exclude * *.py[co]
+include versioneer.py
+include is_number/_version.py

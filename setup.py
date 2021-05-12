@@ -5,7 +5,10 @@ import io
 import os
 
 import setuptools
+import versioneer
 
+with open("requirements.txt", "r") as fh:
+    requirements = [line.strip() for line in fh]
 
 def read(fname):
     file_path = os.path.join(os.path.dirname(__file__), fname)
@@ -14,19 +17,20 @@ def read(fname):
 
 package_name = "climetlab_cems_flood"
 
-version = None
-init_py = os.path.join(package_name.replace("-", "_"), "__init__.py")
-for line in read(init_py).split("\n"):
-    if line.startswith("__version__"):
-        version = line.split("=")[-1].strip()[1:-1]
-assert version
+#version = None
+#init_py = os.path.join(package_name.replace("-", "_"), "__init__.py")
+#for line in read(init_py).split("\n"):
+#    if line.startswith("__version__"):
+#        version = line.split("=")[-1].strip()[1:-1]
+#assert version
 
 
 extras_require = {}
 
 setuptools.setup(
     name=package_name,
-    version=version,
+    version=versioneer.get_version(),
+    cmdclass=cersioneer.get_cmdclass(),
     description="A dataset plugin for climetlab for the dataset cems-flood/glofas.",
     long_description=read("README.md"),
     long_description_content_type="text/markdown",
