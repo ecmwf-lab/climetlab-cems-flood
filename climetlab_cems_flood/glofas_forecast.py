@@ -22,7 +22,7 @@ class GlofasForecast(Dataset):
 
     dataset = None
 
-    def __init__(self):
+    def __init__(self,year):
         self.year = year
 
     #@normalize_args(variable=["river_discharge_in_the_last_24_hours"])
