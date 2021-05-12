@@ -1,4 +1,4 @@
-nclude README.rst
+include README.rst
 include LICENSE
 include requirements.txt
 graft climetlab_cems_flood
