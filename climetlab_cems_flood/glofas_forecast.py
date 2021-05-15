@@ -34,7 +34,7 @@ class GlofasForecast(Dataset):
 
         leadtime_hour = self.parser.leadtime(leadtime)
         request = {
-            "system_version": "version_2_1",
+            "system_version": system_version,
             "hydrological_model": model,
             "product_type": product_type,
             "variable": variable,
