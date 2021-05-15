@@ -4,7 +4,7 @@ from __future__ import annotations
 import climetlab as cml
 from climetlab import Dataset
 
-from utils import Parser
+#from .utils import Parser
 
 # __version__ = "0.1.0"
 
