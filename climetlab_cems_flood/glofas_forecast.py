@@ -6,7 +6,8 @@ from climetlab import Dataset
 
 from utils import Parser
 
-#__version__ = "0.1.0"
+# __version__ = "0.1.0"
+
 
 class GlofasForecast(Dataset):
     name = None
@@ -26,20 +27,21 @@ class GlofasForecast(Dataset):
     def __init__(self):
         self.parser = Parser()
 
-    #@normalize_args(variable=["river_discharge_in_the_last_24_hours"])
-    def _load(self, system_version,product_type,model,variable,period,leadtime):
+    # @normalize_args(variable=["river_discharge_in_the_last_24_hours"])
+    def _load(self, system_version, product_type, model, variable, period, leadtime):
 
-        years,months,days = self.parser.period(period)
+        years, months, days = self.parser.period(period)
 
         leadtime_hour = self.parser.leadtime(leadtime)
-        request =  {'system_version': 'version_2_1',
-                    'hydrological_model': model,
-                    'product_type': product_type,
-                    'variable': variable,
-                    'year': years,
-                    'month': months,
-                    'day': days,
-                    'leadtime_hour': leadtime,
-                    'format': 'grib'}
+        request = {
+            "system_version": "version_2_1",
+            "hydrological_model": model,
+            "product_type": product_type,
+            "variable": variable,
+            "year": years,
+            "month": months,
+            "day": days,
+            "leadtime_hour": leadtime,
+            "format": "grib",
+        }
         self.source = cml.load_source("cds", "cems-glofas-forecast", **request)
-
