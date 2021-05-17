@@ -4,7 +4,7 @@ from __future__ import annotations
 import climetlab as cml
 from climetlab import Dataset
 
-#from .utils import Parser
+from .utils import Parser
 
 # __version__ = "0.1.0"
 
@@ -15,6 +15,7 @@ class GlofasForecast(Dataset):
     licence = "-"
     documentation = "-"
     citation = "-"
+    range = "2019-*"
 
     terms_of_use = (
         "By downloading data from this dataset, you agree to the terms and conditions defined at "
@@ -24,7 +25,8 @@ class GlofasForecast(Dataset):
 
     dataset = None
 
-    def __init__(self):
+    def __init__(self,workers = None):
+        self.workers = workers
         self.parser = Parser()
 
     # @normalize_args(variable=["river_discharge_in_the_last_24_hours"])
@@ -33,7 +35,9 @@ class GlofasForecast(Dataset):
         years, months, days = self.parser.period(period)
 
         leadtime_hour = self.parser.leadtime(leadtime)
-        request = {
+
+
+        self.request = {
             "system_version": system_version,
             "hydrological_model": model,
             "product_type": product_type,
@@ -41,7 +45,18 @@ class GlofasForecast(Dataset):
             "year": years,
             "month": months,
             "day": days,
-            "leadtime_hour": leadtime,
+            "leadtime_hour": leadtime_hour,
             "format": "grib",
         }
-        self.source = cml.load_source("cds", "cems-glofas-forecast", **request)
+
+
+        self.source = cml.load_source("cds", "cems-glofas-forecast", **self.request)
+
+        # sources = []
+        # for year in years:
+        #     request["year"] = year
+        #     sources.append(
+        #         cml.load_source("cds", "cems-glofas-forecast", **request)
+        #     )
+
+        # self.source = cml.load_source("multi", sources)
