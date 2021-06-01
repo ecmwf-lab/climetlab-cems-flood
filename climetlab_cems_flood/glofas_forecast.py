@@ -23,7 +23,7 @@ class GlofasForecast(Dataset):
         "If you do not agree with such terms, do not download the data. "
     )
 
-    dataset = None
+    dataset = "glofas_forecast"
 
     def __init__(self):
         self.parser = Parser()
