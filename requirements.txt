@@ -1,2 +1,4 @@
 wheel>=0.22
 climetlab>=0.7.0
+dask[all]
+
