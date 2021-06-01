@@ -118,7 +118,7 @@ venv.bak/
 *.nc
 *.grib
 *.grb
-
+publish.sh
 
 #VSCODE
 *.code-workspace
