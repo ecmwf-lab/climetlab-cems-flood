@@ -14,7 +14,6 @@ cftime==1.4.1
 chardet==4.0.0
 click==8.0.0
 climetlab==0.6.0
--e git+git@github.com:ecmwf-lab/climetlab-cems-flood.git@7967b52b222109b8cc8412faba9187433fd67fa8#egg=climetlab_cems_flood
 cloudpickle==1.6.0
 colorama==0.4.4
 cryptography==3.4.7

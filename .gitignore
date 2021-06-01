@@ -120,4 +120,4 @@ venv.bak/
 
 
 #VSCODE
-workspace.code-workspace
+*.code-workspace

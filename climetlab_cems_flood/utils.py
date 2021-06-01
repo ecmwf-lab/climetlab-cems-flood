@@ -1,4 +1,5 @@
 from datetime import datetime, timedelta
+import typing as T
 import re
 
 M = ["%02d"%d for  d in range(1,13)]
@@ -85,3 +86,11 @@ class Parser:
                 days.update([i.strftime("%d") for i in period])
 
             return sorted(list(years)), sorted(list(months)), sorted(list(days))
+
+
+
+def months_num2str(months: T.List[str]):
+    mapping = {"01":"january","02":"february","03":"march","04":"april","05":"may",
+               "06":"june","07":"july","08":"august","09":"september","10":"october",
+              "11":"november","12":"december"}
+    return [mapping.get(m) for m in months if mapping.get(m)]
