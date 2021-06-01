@@ -47,7 +47,7 @@ setuptools.setup(
     entry_points={
         "climetlab.datasets": [
             "cems-flood-glofas-forecast = climetlab_cems_flood.glofas_forecast:GlofasForecast",
-            # "cems-flood-other-dataset = climetlab_cems_flood.other_dataset:OtherDatasetClass",
+            "cems-flood-glofas-historical = climetlab_cems_flood.glofas_historical:GlofasHistorical",
         ]
     },
     keywords="hydrology",
