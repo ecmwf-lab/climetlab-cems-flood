@@ -25,11 +25,8 @@ class GlofasForecast(Dataset):
 
     dataset = "glofas_forecast"
 
-    def __init__(self):
+    def __init__(self, system_version, product_type, model, variable, period, leadtime):
         self.parser = Parser()
-
-    # @normalize_args(variable=["river_discharge_in_the_last_24_hours"])
-    def _load(self, system_version, product_type, model, variable, period, leadtime):
 
         years, months, days = self.parser.period(period)
 

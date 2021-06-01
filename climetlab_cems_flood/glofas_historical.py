@@ -25,11 +25,9 @@ class GlofasHistorical(Dataset):
 
     dataset = None
 
-    def __init__(self):
+    def __init__(self, system_version, product_type, model, variable, period):
+        
         self.parser = Parser()
-
-
-    def _load(self, system_version, product_type, model, variable, period):
 
         years, months, days = self.parser.period(period)
 
