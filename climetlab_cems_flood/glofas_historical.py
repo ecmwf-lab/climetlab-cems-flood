@@ -29,7 +29,7 @@ class GlofasHistorical(Dataset):
 
     def __init__(self, system_version, product_type, model, variable, period):
         
-        self.parser = Parser(temporal_range)
+        self.parser = Parser(self.temporal_range)
 
         years, months, days = self.parser.period(period)
 
