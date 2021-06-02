@@ -36,8 +36,14 @@ def parser_time_index(start=[2019, 1, 1], end=[2019, 12, 31]):
 
 class Parser:
 
-    def __init__(self):
-        pass
+    def __init__(self,range_years=None):
+        
+        #TODO quite hacky
+        if range_years:
+            setattr(Parser,"Y",[str(d) for d in range(range_years[0],range_years[1]+1)])
+        else:
+            setattr(Parser,"Y",None)
+        
 
     @staticmethod
     def leadtime(string):
@@ -51,17 +57,17 @@ class Parser:
 
         return ret
 
-    @staticmethod
-    def period(string):
+    @classmethod
+    def period(cls,string):
 
         PATTERN = {"[0-9]{8}":{}, # most frequent
-                "\*[0-9]{2}[0-9]{2}":[Y,string[1:3],string[3:]],
+                "\*[0-9]{2}[0-9]{2}":[cls.Y,string[1:3],string[3:]],
                 "[0-9]{4}\*[0-9]{2}":[string[:4],M,string[5:]],
-                "[0-9]{4}[0-9]{2}\*":{"D":D},
-                "[0-9]{4}\*\*":{"M":M,"D":D},
-                "\*[0-9]{2}\*":{"Y":Y,"D":D},
-                "\*\*[0-9]{2}":{"Y":Y,"M":M},
-                "\*\*\*":{"Y":Y,"M":M,"D":D}}
+                "[0-9]{4}[0-9]{2}\*":[string[:4],string[1:3],D],
+                "[0-9]{4}\*\*":[string[:4],M,D],
+                "\*[0-9]{2}\*":[cls.Y,string[1:3],D],
+                "\*\*[0-9]{2}":[cls.Y,M,string[3:]],
+                "\*\*\*":[cls.Y,M,D]}
 
         _validate(string)
 

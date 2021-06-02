@@ -25,9 +25,11 @@ class GlofasHistorical(Dataset):
 
     dataset = None
 
+    temporal_range = [1979,2021]
+
     def __init__(self, system_version, product_type, model, variable, period):
         
-        self.parser = Parser()
+        self.parser = Parser(temporal_range)
 
         years, months, days = self.parser.period(period)
 

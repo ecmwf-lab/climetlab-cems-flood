@@ -1,7 +1,7 @@
 import pytest
 from climetlab_cems_flood.utils import Parser
 
-parser = Parser()
+
 
 
 def assert_period(years,months,days,expected):
@@ -11,6 +11,8 @@ def assert_period(years,months,days,expected):
     assert days == expected[2]
 
 def test_parser_leadtime():
+
+    parser = Parser()
 
     assert parser.leadtime("24-72/480-600") == [
         "24",
@@ -86,7 +88,7 @@ def test_parser_leadtime():
                                                     ["%02d"%d for d in range(1,26)]
                                                     ]
                                                 ),
-                                                                                                (
+                                                 (
                                                     "20180212/20200101",
                                                     [
                                                     ["2018", "2020"],
@@ -94,7 +96,7 @@ def test_parser_leadtime():
                                                     ["01","12"]
                                                     ]
                                                 ),
-                                                                                                (
+                                                 (
                                                     "20180201",
                                                     [
                                                     ["2018"],
@@ -102,28 +104,60 @@ def test_parser_leadtime():
                                                     ["01"]
                                                     ]
                                                 ),
-                                                                                                (
+                                                (
                                                     "20100101-20200325",
                                                     [
                                                     ["%d"%y for y in range(2010,2021,1)],
                                                     ["%02d"%m for m in range(1,13)],
                                                     ["%02d"%d for d in range(1,32)]
                                                     ]
+                                                ),                                           
+                                                pytest.param("202001-12/*1010", 42, marks=pytest.mark.xfail)
+                                            ]
+                        ) # expected = [[years],[months],[days]]
+def test_parser_period(string,expected):
+    
+    parser = Parser()
+
+
+    years, months, days = parser.period(string)
+
+    assert_period(years,months,days,expected)
+
+
+
+@pytest.mark.parametrize("string, expected",[
+                                                (
+                                                    "*0101",
+                                                    [
+                                                    ["%d"%y for y in range(1979,2022,1)],
+                                                    ["01"],
+                                                    ["01"]
+                                                    ]
                                                 ),
-                                                                                                                                                (
+                                                                                                (
+                                                    "***",
+                                                    [
+                                                    ["%d"%y for y in range(1979,2022,1)],
+                                                    ["%02d"%m for m in range(1,13)],
+                                                    ["%02d"%d for d in range(1,32)]
+                                                    ]
+                                                ),
+                                                                                                (
                                                     "2020*01",
                                                     [
                                                     ["2020"],
                                                     ["%02d"%m for m in range(1,13)],
                                                     ["01"]
                                                     ]
-                                                ),
-                                                pytest.param("202001-12/*1010", 42, marks=pytest.mark.xfail)
+                                                ),  
                                             ]
-                        ) # expected = [[years],[months],[days]]
-def test_parser_period(string,expected):
+                                                
+                        )
+def test_parser_period_star_param(string,expected):
+
+    parser = Parser([1979,2021])
 
     years, months, days = parser.period(string)
 
     assert_period(years,months,days,expected)
-

@@ -25,8 +25,11 @@ class GlofasForecast(Dataset):
 
     dataset = "glofas_forecast"
 
+    temporal_range = [2019,2021]
+
     def __init__(self, system_version, product_type, model, variable, period, leadtime):
-        self.parser = Parser()
+        
+        self.parser = Parser(temporal_range)
 
         years, months, days = self.parser.period(period)
 
