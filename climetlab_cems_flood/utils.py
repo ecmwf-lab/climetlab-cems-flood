@@ -6,6 +6,15 @@ M = ["%02d"%d for  d in range(1,13)]
 Y = [str(d) for d in range(2000,2019)]
 D = ["%02d"%d for  d in range(1,32)]
 
+
+
+class StringNotValidError(Exception):
+
+    def __init__(self, expression, message):
+        self.expression = expression
+        self.message = message
+
+
 def ensure_list(l):
     if isinstance(l,list):
         return l
@@ -54,8 +63,7 @@ class Parser:
                 "\*\*[0-9]{2}":{"Y":Y,"M":M},
                 "\*\*\*":{"Y":Y,"M":M,"D":D}}
 
-        s = string.split("/")
-
+        _validate(string)
 
         if "*" in string:
             years = set()
@@ -70,11 +78,14 @@ class Parser:
 
             return sorted(ensure_list(years)), sorted(ensure_list(months)), sorted(ensure_list(days))
 
-        else:
-            years = set()
-            months = set()
-            days = set()
-            for chunk in s:
+        s = string.split("/")
+
+        years = set()
+        months = set()
+        days = set()
+        for chunk in s:
+
+            if "-" in chunk: # check "-"
                 start, end = chunk.split("-")
                 start = datetime.strptime(start, "%Y%m%d")
                 end = datetime.strptime(end, "%Y%m%d")
@@ -84,10 +95,21 @@ class Parser:
                 years.update([i.strftime("%Y") for i in period])
                 months.update([i.strftime("%m") for i in period])
                 days.update([i.strftime("%d") for i in period])
+            else:
+                years.update([chunk[:4]])
+                months.update([chunk[4:6]])
+                days.update([chunk[6:]])                 
 
-            return sorted(list(years)), sorted(list(months)), sorted(list(days))
+
+        return sorted(list(years)), sorted(list(months)), sorted(list(days))
 
 
+
+def _validate(string):
+    if ("*" in string and "-" in string) or ("*" in string and "/" in string):
+        raise StringNotValidError(string," '*' and '-' or '*' and '/' are not allowed in the same string")
+    else:
+        pass
 
 def months_num2str(months: T.List[str]):
     mapping = {"01":"january","02":"february","03":"march","04":"april","05":"may",

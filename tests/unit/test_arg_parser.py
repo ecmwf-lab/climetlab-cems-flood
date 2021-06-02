@@ -1,14 +1,14 @@
+import pytest
 from climetlab_cems_flood.utils import Parser
-
-
-leadtime = "24-72/480-600"
-leadtime = "24-600"
-leadtime = "24-72/240-336/480-600"
-
-period = "20180101-20181231/20200101-20201231"
 
 parser = Parser()
 
+
+def assert_period(years,months,days,expected):
+
+    assert years == expected[0]
+    assert months == expected[1]
+    assert days == expected[2]
 
 def test_parser_leadtime():
 
@@ -69,175 +69,61 @@ def test_parser_leadtime():
         "600",
     ]
 
+@pytest.mark.parametrize("string, expected",[
+                                                (
+                                                    "20180101-20181231/20200101-20201231",
+                                                    [
+                                                    ["2018", "2020"],
+                                                    ["%02d"%m for m in range(1,13)],
+                                                    ["%02d"%d for d in range(1,32)]
+                                                    ]
+                                                ),
+                                                                                                (
+                                                    "20180201-20180212/20200101-20200125",
+                                                    [
+                                                    ["2018", "2020"],
+                                                    ["01", "02"],
+                                                    ["%02d"%d for d in range(1,26)]
+                                                    ]
+                                                ),
+                                                                                                (
+                                                    "20180212/20200101",
+                                                    [
+                                                    ["2018", "2020"],
+                                                    ["01","02"],
+                                                    ["01","12"]
+                                                    ]
+                                                ),
+                                                                                                (
+                                                    "20180201",
+                                                    [
+                                                    ["2018"],
+                                                    ["02"],
+                                                    ["01"]
+                                                    ]
+                                                ),
+                                                                                                (
+                                                    "20100101-20200325",
+                                                    [
+                                                    ["%d"%y for y in range(2010,2021,1)],
+                                                    ["%02d"%m for m in range(1,13)],
+                                                    ["%02d"%d for d in range(1,32)]
+                                                    ]
+                                                ),
+                                                                                                                                                (
+                                                    "2020*01",
+                                                    [
+                                                    ["2020"],
+                                                    ["%02d"%m for m in range(1,13)],
+                                                    ["01"]
+                                                    ]
+                                                ),
+                                                pytest.param("202001-12/*1010", 42, marks=pytest.mark.xfail)
+                                            ]
+                        ) # expected = [[years],[months],[days]]
+def test_parser_period(string,expected):
 
-def test_parser_period():
+    years, months, days = parser.period(string)
 
-    years, months, days = parser.period("20180101-20181231/20200101-20201231")
+    assert_period(years,months,days,expected)
 
-    assert years == ["2018", "2020"]
-    assert months == [
-        "01",
-        "02",
-        "03",
-        "04",
-        "05",
-        "06",
-        "07",
-        "08",
-        "09",
-        "10",
-        "11",
-        "12",
-    ]
-    assert days == [
-        "01",
-        "02",
-        "03",
-        "04",
-        "05",
-        "06",
-        "07",
-        "08",
-        "09",
-        "10",
-        "11",
-        "12",
-        "13",
-        "14",
-        "15",
-        "16",
-        "17",
-        "18",
-        "19",
-        "20",
-        "21",
-        "22",
-        "23",
-        "24",
-        "25",
-        "26",
-        "27",
-        "28",
-        "29",
-        "30",
-        "31",
-    ]
-
-    years, months, days = parser.period("20180201-20180212/20200101-20200125")
-
-    assert years == ["2018", "2020"]
-    assert months == ["01", "02"]
-    assert days == [
-        "01",
-        "02",
-        "03",
-        "04",
-        "05",
-        "06",
-        "07",
-        "08",
-        "09",
-        "10",
-        "11",
-        "12",
-        "13",
-        "14",
-        "15",
-        "16",
-        "17",
-        "18",
-        "19",
-        "20",
-        "21",
-        "22",
-        "23",
-        "24",
-        "25",
-    ]
-
-    years, months, days = parser.period("20100101-20200325")
-
-    assert years == [
-        "2010",
-        "2011",
-        "2012",
-        "2013",
-        "2014",
-        "2015",
-        "2016",
-        "2017",
-        "2018",
-        "2019",
-        "2020",
-    ]
-    assert months == [
-        "01",
-        "02",
-        "03",
-        "04",
-        "05",
-        "06",
-        "07",
-        "08",
-        "09",
-        "10",
-        "11",
-        "12",
-    ]
-    assert days == [
-        "01",
-        "02",
-        "03",
-        "04",
-        "05",
-        "06",
-        "07",
-        "08",
-        "09",
-        "10",
-        "11",
-        "12",
-        "13",
-        "14",
-        "15",
-        "16",
-        "17",
-        "18",
-        "19",
-        "20",
-        "21",
-        "22",
-        "23",
-        "24",
-        "25",
-        "26",
-        "27",
-        "28",
-        "29",
-        "30",
-        "31",
-    ]
-
-    years, months, days = parser.period("2020*01") 
-
-    assert years == ["2020"]
-    assert months  == [
-        "01",
-        "02",
-        "03",
-        "04",
-        "05",
-        "06",
-        "07",
-        "08",
-        "09",
-        "10",
-        "11",
-        "12",
-    ]
-
-    assert days == ["01"]
-    
-    #parser.period("*01*")
-
-    #parser.period("***")
