@@ -35,7 +35,7 @@ class GlofasForecast(Dataset):
 
         leadtime_hour = self.parser.leadtime(leadtime)
 
-
+ 
         self.request = {
             "system_version": system_version,
             "hydrological_model": model,
@@ -59,3 +59,18 @@ class GlofasForecast(Dataset):
         #     )
 
         # self.source = cml.load_source("multi", sources)
+
+
+    def _repr_html_(self):
+        
+        style = """
+            <style>table.climetlab td {
+            vertical-align: top;
+            text-align: left !important;}
+        </style>"""      
+         
+        li = ""
+        for key in gl_forecast.request:
+            li += f"<li> <b>{key}: </b> {gl_forecast.request[key]} </li>".format()
+            
+        return style + f"""<table class="climetlab"><tr><td><b>Request</b></td><td><ul>{li}</ul></td></tr></table>"""
