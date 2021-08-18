@@ -15,6 +15,7 @@ class GlofasForecast(Dataset):
     licence = "-"
     documentation = "-"
     citation = "-"
+    request = "-"
 
 
     terms_of_use = (
@@ -62,15 +63,17 @@ class GlofasForecast(Dataset):
 
 
     def _repr_html_(self):
-        
-        style = """
-            <style>table.climetlab td {
-            vertical-align: top;
-            text-align: left !important;}
-        </style>"""      
-         
-        li = ""
-        for key in gl_forecast.request:
-            li += f"<li> <b>{key}: </b> {gl_forecast.request[key]} </li>".format()
+        if self.request == "-":
+            super()._repr_html(self)
+        else:
+            style = """
+                <style>table.climetlab td {
+                vertical-align: top;
+                text-align: left !important;}
+            </style>"""      
             
-        return style + f"""<table class="climetlab"><tr><td><b>Request</b></td><td><ul>{li}</ul></td></tr></table>"""
+            li = ""
+            for key in self.request:
+                li += f"<li> <b>{key}: </b> {self.request[key]} </li>".format()
+                
+            return style + f"""<table class="climetlab"><tr><td><b>Request</b></td><td><ul>{li}</ul></td></tr></table>"""

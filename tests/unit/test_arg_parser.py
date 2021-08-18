@@ -124,8 +124,6 @@ def test_parser_period(string,expected):
 
     assert_period(years,months,days,expected)
 
-
-
 @pytest.mark.parametrize("string, expected",[
                                                 (
                                                     "*0101",
