@@ -6,6 +6,7 @@ from climetlab import Dataset
 
 from .utils import Parser,months_num2str
 
+from functools import partial
 # __version__ = "0.1.0"
 
 
@@ -50,6 +51,8 @@ class GlofasHistorical(Dataset):
 
 
         self.source = cml.load_source("cds", "cems-glofas-historical", **self.request)
+
+        self.source.to_xarray = partial(self.source.to_xarray,engine="cfgrib",backend_kwargs={'time_dims':['time']})
 
 
     def _repr_html_(self):
