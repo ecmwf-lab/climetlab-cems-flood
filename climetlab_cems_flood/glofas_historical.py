@@ -52,7 +52,10 @@ class GlofasHistorical(Dataset):
 
         self.source = cml.load_source("cds", "cems-glofas-historical", **self.request)
 
-        self.source.to_xarray = partial(self.source.to_xarray,engine="cfgrib",backend_kwargs={'time_dims':['time']})
+
+    def to_xarray(self):
+    
+            return self.source.to_xarray(backend_kwargs={'time_dims':['time']}).squeeze("step")
 
 
     def _repr_html_(self):
