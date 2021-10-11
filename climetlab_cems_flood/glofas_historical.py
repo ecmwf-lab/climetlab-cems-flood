@@ -55,7 +55,7 @@ class GlofasHistorical(Dataset):
 
     def to_xarray(self):
     
-            return self.source.to_xarray(backend_kwargs={'time_dims':['time']}).squeeze("step")
+            return self.source.to_xarray(backend_kwargs={'time_dims':['time']})
 
 
     def _repr_html_(self):
